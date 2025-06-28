@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: netflix_db
+    environment:
+      POSTGRES_DB: netflix_db
+      POSTGRES_USER: netflix_user
+      POSTGRES_PASSWORD: netflix_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - netflix_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: netflix_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=postgresql://netflix_user:netflix_password@db:5432/netflix_db
+    depends_on:
+      - db
+    networks:
+      - netflix_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: netflix_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - netflix_network
+
+volumes:
+  postgres_data:
+
+networks:
+  netflix_network:
+    driver: bridge
+
