@@ -1,153 +1,156 @@
 import styled from 'styled-components';
 
 interface ContainerProps {
-  isScrolled: boolean;
+  backdrop?: string;
 }
 
-interface NavItemProps {
-  active?: boolean;
-}
+export const Container = styled.div<ContainerProps>`
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  max-height: 700px;
+  width: 100%;
+  background-image: ${props => props.backdrop ? `url(${props.backdrop})` : 'none'};
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  color: var(--white);
+  
+  @media (max-width: 768px) {
+    height: 60vh;
+    min-height: 400px;
+  }
+`;
 
-export const Container = styled.header<ContainerProps>`
-  position: fixed;
+export const Overlay = styled.div`
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 68px;
-  display: flex;
-  align-items: center;
-  padding: 0 60px;
-  background-color: ${props => props.isScrolled ? 'var(--black)' : 'transparent'};
-  background-image: ${props => props.isScrolled ? 'none' : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 10%, transparent)'};
-  transition: background-color 0.3s ease;
-  z-index: 1000;
-
-  @media (max-width: 768px) {
-    padding: 0 20px;
-  }
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.5) 60%,
+    rgba(0, 0, 0, 0.8) 85%,
+    var(--black) 100%
+  );
 `;
 
-export const Logo = styled.div`
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--primary);
-  margin-right: 40px;
-  
-  a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-`;
-
-export const Navigation = styled.nav`
-  display: flex;
-  align-items: center;
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-export const NavItem = styled.div<NavItemProps>`
-  margin-right: 20px;
-  font-size: 0.9rem;
-  font-weight: ${props => props.active ? 'bold' : 'normal'};
-  opacity: ${props => props.active ? 1 : 0.7};
-  transition: opacity 0.2s ease;
-  
-  &:hover {
-    opacity: 1;
-  }
-  
-  a {
-    color: var(--white);
-    text-decoration: none;
-  }
-`;
-
-export const RightContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-`;
-
-export const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-  position: relative;
-  
-  svg {
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-`;
-
-export const SearchInput = styled.input`
-  background-color: var(--black);
-  border: 1px solid var(--white);
-  color: var(--white);
-  padding: 5px 10px;
-  width: 250px;
-  height: 36px;
-  outline: none;
-  
-  &::placeholder {
-    color: var(--light-gray);
-  }
-`;
-
-export const NotificationIcon = styled.div`
-  margin-right: 20px;
-  font-size: 1.2rem;
-  cursor: pointer;
-`;
-
-export const ProfileContainer = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  
-  svg {
-    margin-left: 5px;
-    font-size: 0.8rem;
-  }
-`;
-
-export const ProfileImage = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  background-color: #808080;
-  background-image: url('https://occ-0-1723-1722.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABbme8JMz4rEKFJhtzpOKWFJ_6qX-0y5wwWyYvBhWS0VKFLa289dZ5zvRBggmFVWVPL2AAYE8xevD4jjLZjWumNo.png?r=a41');
-  background-size: cover;
-`;
-
-export const ProfileMenu = styled.div`
+export const Content = styled.div`
   position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 10px;
-  background-color: rgba(0, 0, 0, 0.9);
-  border: 1px solid var(--medium-gray);
-  border-radius: 4px;
-  width: 180px;
-  overflow: hidden;
-  z-index: 1000;
+  bottom: 150px;
+  left: 60px;
+  max-width: 500px;
+  z-index: 10;
+  
+  @media (max-width: 768px) {
+    left: 20px;
+    bottom: 100px;
+    max-width: 80%;
+  }
 `;
 
-export const ProfileMenuItem = styled.div`
-  padding: 10px 15px;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+export const Title = styled.h1`
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   
-  &:hover {
-    background-color: var(--medium-gray);
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
+export const Metadata = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+export const MetadataItem = styled.span`
+  margin-right: 15px;
+  font-size: 1rem;
+  color: #ccc;
+  
+  &:not(:last-child)::after {
+    content: '•';
+    margin-left: 15px;
+  }
+`;
+
+export const Description = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`;
+
+export const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+export const PlayButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  color: var(--black);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-right: 15px;
+  transition: all 0.2s ease;
+  
+  svg {
+    margin-right: 10px;
   }
   
-  a {
-    display: block;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+`;
+
+export const InfoButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(109, 109, 110, 0.7);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  
+  svg {
+    margin-right: 10px;
+  }
+  
+  &:hover {
+    background-color: rgba(109, 109, 110, 0.5);
+  }
+  
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
