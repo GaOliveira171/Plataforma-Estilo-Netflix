@@ -1,0 +1,24 @@
+Test loading failed: Error: Invalid test discovery output!
+
+Error: Invalid test discovery output!
+
+    at parseTestSuites (c:\Users\srdke\.vscode\extensions\littlefoxteam.vscode-python-test-adapter-0.8.2\out\src\pytest\pytestTestCollectionParser.js:14:15)
+    at PytestTestRunner.<anonymous> (c:\Users\srdke\.vscode\extensions\littlefoxteam.vscode-python-test-adapter-0.8.2\out\src\pytest\pytestTestRunner.js:60:76)
+    at Generator.next (<anonymous>)
+    at fulfilled (c:\Users\srdke\.vscode\extensions\littlefoxteam.vscode-python-test-adapter-0.8.2\node_modules\tslib\tslib.js:114:62)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+
+Stacktrace: 
+    at S.syncTopLevel (c:\Users\srdke\.vscode\extensions\ms-vscode.test-adapter-converter-0.2.1\out\extension.js:6:3)
+    at ud.value (c:\Users\srdke\.vscode\extensions\ms-vscode.test-adapter-converter-0.2.1\out\extension.js:3:4541)
+    at P.B (file:///c:/Users/srdke/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:27:2373)
+    at P.fire (file:///c:/Users/srdke/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:27:2591)
+    at ud.value (c:\Users\srdke\.vscode\extensions\hbenl.vscode-test-explorer-2.22.1\out\hub\testHub.js:53:43)
+    at P.B (file:///c:/Users/srdke/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:27:2373)
+    at P.C (file:///c:/Users/srdke/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:27:2443)
+    at P.fire (file:///c:/Users/srdke/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:27:2660)
+    at PythonTestAdapter.<anonymous> (c:\Users\srdke\.vscode\extensions\littlefoxteam.vscode-python-test-adapter-0.8.2\out\src\pythonTestAdapter.js:89:35)
+    at Generator.throw (<anonymous>)
+    at rejected (c:\Users\srdke\.vscode\extensions\littlefoxteam.vscode-python-test-adapter-0.8.2\node_modules\tslib\tslib.js:115:69)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)

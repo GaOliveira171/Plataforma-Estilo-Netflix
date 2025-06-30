@@ -1,0 +1,70 @@
+# streaming/__init__.py
+# This file is intentionally left blank.
+
+# streaming/admin.py
+from django.contrib import admin
+from .models import StreamingContent
+
+admin.site.register(StreamingContent)
+
+# streaming/apps.py
+from django.apps import AppConfig
+
+class StreamingConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'streaming'
+
+# streaming/models.py
+from django.db import models
+
+class StreamingContent(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    url = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+# streaming/serializers.py
+from rest_framework import serializers
+from .models import StreamingContent
+
+class StreamingContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StreamingContent
+        fields = '__all__'
+
+# streaming/tests.py
+from django.test import TestCase
+from .models import StreamingContent
+
+class StreamingContentModelTest(TestCase):
+    def setUp(self):
+        StreamingContent.objects.create(title="Test Movie", description="A test movie description", url="http://testurl.com")
+
+    def test_string_representation(self):
+        content = StreamingContent.objects.get(id=1)
+        self.assertEqual(str(content), content.title)
+
+# streaming/urls.py
+from django.urls import path
+from .views import StreamingContentList, StreamingContentDetail
+
+urlpatterns = [
+    path('streaming/', StreamingContentList.as_view(), name='streaming-list'),
+    path('streaming/<int:pk>/', StreamingContentDetail.as_view(), name='streaming-detail'),
+]
+
+# streaming/views.py
+from rest_framework import generics
+from .models import StreamingContent
+from .serializers import StreamingContentSerializer
+
+class StreamingContentList(generics.ListCreateAPIView):
+    queryset = StreamingContent.objects.all()
+    serializer_class = StreamingContentSerializer
+
+class StreamingContentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StreamingContent.objects.all()
+    serializer_class = StreamingContentSerializer

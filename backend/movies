@@ -1,0 +1,95 @@
+# /netflix-clone/netflix-clone/backend/movies/__init__.py
+# This file is intentionally left blank.
+
+# /netflix-clone/netflix-clone/backend/movies/admin.py
+from django.contrib import admin
+from .models import Movie, Series
+
+admin.site.register(Movie)
+admin.site.register(Series)
+
+# /netflix-clone/netflix-clone/backend/movies/apps.py
+from django.apps import AppConfig
+
+class MoviesConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'movies'
+
+# /netflix-clone/netflix-clone/backend/movies/models.py
+from django.db import models
+
+class Movie(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    release_date = models.DateField()
+    rating = models.FloatField()
+    genre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+class Series(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    seasons = models.IntegerField()
+    rating = models.FloatField()
+    genre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+# /netflix-clone/netflix-clone/backend/movies/serializers.py
+from rest_framework import serializers
+from .models import Movie, Series
+
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'
+
+class SeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = '__all__'
+
+# /netflix-clone/netflix-clone/backend/movies/tests.py
+from django.test import TestCase
+from .models import Movie, Series
+
+class MovieModelTest(TestCase):
+    def setUp(self):
+        Movie.objects.create(title="Test Movie", description="A test movie", release_date="2023-01-01", rating=8.5, genre="Action")
+
+    def test_movie_str(self):
+        movie = Movie.objects.get(id=1)
+        self.assertEqual(str(movie), "Test Movie")
+
+class SeriesModelTest(TestCase):
+    def setUp(self):
+        Series.objects.create(title="Test Series", description="A test series", seasons=2, rating=9.0, genre="Drama")
+
+    def test_series_str(self):
+        series = Series.objects.get(id=1)
+        self.assertEqual(str(series), "Test Series")
+
+# /netflix-clone/netflix-clone/backend/movies/urls.py
+from django.urls import path
+from .views import MovieList, SeriesList
+
+urlpatterns = [
+    path('movies/', MovieList.as_view(), name='movie-list'),
+    path('series/', SeriesList.as_view(), name='series-list'),
+]
+
+# /netflix-clone/netflix-clone/backend/movies/views.py
+from rest_framework import generics
+from .models import Movie, Series
+from .serializers import MovieSerializer, SeriesSerializer
+
+class MovieList(generics.ListCreateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
+class SeriesList(generics.ListCreateAPIView):
+    queryset = Series.objects.all()
+    serializer_class = SeriesSerializer

@@ -1,0 +1,74 @@
+# File: /netflix-clone/netflix-clone/frontend/src/pages/index.tsx
+
+import React from 'react';
+
+const HomePage: React.FC = () => {
+    return (
+        <div>
+            <h1>Welcome to the Netflix Clone</h1>
+            <p>Explore a wide range of movies and series.</p>
+        </div>
+    );
+};
+
+export default HomePage;
+
+# File: /netflix-clone/netflix-clone/frontend/src/pages/MoviesPage.tsx
+
+import React from 'react';
+
+const MoviesPage: React.FC = () => {
+    return (
+        <div>
+            <h1>Movies</h1>
+            <p>Browse through our collection of movies.</p>
+        </div>
+    );
+};
+
+export default MoviesPage;
+
+# File: /netflix-clone/netflix-clone/frontend/src/pages/SeriesPage.tsx
+
+import React from 'react';
+
+const SeriesPage: React.FC = () => {
+    return (
+        <div>
+            <h1>Series</h1>
+            <p>Check out the latest series available for streaming.</p>
+        </div>
+    );
+};
+
+export default SeriesPage;
+
+# File: /netflix-clone/netflix-clone/frontend/src/pages/ProfilePage.tsx
+
+import React from 'react';
+
+const ProfilePage: React.FC = () => {
+    return (
+        <div>
+            <h1>User Profile</h1>
+            <p>Manage your profile settings here.</p>
+        </div>
+    );
+};
+
+export default ProfilePage;
+
+# File: /netflix-clone/netflix-clone/frontend/src/pages/FavoritesPage.tsx
+
+import React from 'react';
+
+const FavoritesPage: React.FC = () => {
+    return (
+        <div>
+            <h1>Favorites</h1>
+            <p>Your favorite movies and series will be listed here.</p>
+        </div>
+    );
+};
+
+export default FavoritesPage;

@@ -1,49 +1,38 @@
 version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8080:8000"   # Porta externa 8080 → interna 8000
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3001:3000"   # Porta externa 3001 → interna 3000
+    depends_on:
+      - backend
+
   db:
     image: postgres:15
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./backend/.env
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=netflix_clone
-    ports:
-      - "5432:5432"
-    restart: always
-
-  backend:
-    build: ./backend
-    volumes:
-      - ./backend:/app
-    ports:
-      - "8000:8000"
-    env_file:
-      - ./backend/.env
-    depends_on:
-      - db
-    command: >
-      sh -c "python manage.py wait_for_db &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-    restart: always
-
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./frontend/.env
-    depends_on:
-      - backend
-    restart: always
+      POSTGRES_DB: netflix_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
 
 volumes:
   postgres_data:
-

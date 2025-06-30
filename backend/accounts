@@ -1,0 +1,92 @@
+# backend/accounts/__init__.py
+# This file is intentionally left blank.
+
+# backend/accounts/admin.py
+from django.contrib import admin
+from .models import UserProfile
+
+admin.site.register(UserProfile)
+
+# backend/accounts/apps.py
+from django.apps import AppConfig
+
+class AccountsConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'accounts'
+
+# backend/accounts/models.py
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class UserProfile(AbstractUser):
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
+
+# backend/accounts/serializers.py
+from rest_framework import serializers
+from .models import UserProfile
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'username', 'email', 'bio', 'profile_picture']
+
+# backend/accounts/urls.py
+from django.urls import path
+from .views import UserProfileList, UserProfileDetail
+
+urlpatterns = [
+    path('profiles/', UserProfileList.as_view(), name='user-profile-list'),
+    path('profiles/<int:pk>/', UserProfileDetail.as_view(), name='user-profile-detail'),
+]
+
+# backend/accounts/views.py
+from rest_framework import generics
+from .models import UserProfile
+from .serializers import UserProfileSerializer
+
+class UserProfileList(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+class UserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+# backend/accounts/tests.py
+from django.test import TestCase
+from .models import UserProfile
+
+class UserProfileModelTest(TestCase):
+    def setUp(self):
+        self.user = UserProfile.objects.create_user(username='testuser', password='testpass')
+
+    def test_user_profile_creation(self):
+        self.assertEqual(self.user.username, 'testuser')
+
+# backend/accounts/migrations/0001_initial.py
+from django.db import migrations, models
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = []
+
+    operations = [
+        migrations.CreateModel(
+            name='UserProfile',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('username', models.CharField(max_length=150, unique=True)),
+                ('email', models.EmailField(max_length=254, unique=True)),
+                ('bio', models.TextField(blank=True)),
+                ('profile_picture', models.ImageField(blank=True, upload_to='profile_pictures/')),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
+    ]
+
+# backend/accounts/migrations/__init__.py
+# This file is intentionally left blank.
